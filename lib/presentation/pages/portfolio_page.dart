@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:roman_portfolio/presentation/providers/portfolio_provider.dart';
 import 'package:roman_portfolio/presentation/widgets/home_section.dart';
 import 'package:roman_portfolio/presentation/widgets/about_section.dart';
 import 'package:roman_portfolio/presentation/widgets/skills_section.dart';
@@ -10,14 +12,14 @@ import 'package:roman_portfolio/presentation/widgets/projects_section.dart';
 import 'package:roman_portfolio/presentation/widgets/contact_section.dart';
 import 'package:roman_portfolio/core/layout/responsive_layout.dart';
 
-class PortfolioPage extends StatefulWidget {
+class PortfolioPage extends ConsumerStatefulWidget {
   const PortfolioPage({super.key});
 
   @override
-  State<PortfolioPage> createState() => _PortfolioPageState();
+  ConsumerState<PortfolioPage> createState() => _PortfolioPageState();
 }
 
-class _PortfolioPageState extends State<PortfolioPage> {
+class _PortfolioPageState extends ConsumerState<PortfolioPage> {
   final GlobalKey _homeKey = GlobalKey();
   final GlobalKey _aboutKey = GlobalKey();
   final GlobalKey _skillsKey = GlobalKey();
@@ -40,6 +42,9 @@ class _PortfolioPageState extends State<PortfolioPage> {
 
   @override
   Widget build(BuildContext context) {
+    final portfolioData = ref.watch(portfolioProvider);
+    final profile = portfolioData.profileInfo;
+
     final isDesktop = ResponsiveLayout.isDesktop(context);
     final isTablet = ResponsiveLayout.isTablet(context);
     final showFullMenu = isDesktop || isTablet;
@@ -48,7 +53,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
       appBar: AppBar(
         title: GestureDetector(
           onTap: () => _scrollTo(_homeKey),
-          child: const Text('MD. Roman Dewan'),
+          child: Text(profile.name),
         ),
         elevation: 0,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -99,12 +104,30 @@ class _PortfolioPageState extends State<PortfolioPage> {
                   onSelected: (key) => _scrollTo(key),
                   itemBuilder: (context) => [
                     PopupMenuItem(value: _aboutKey, child: const Text('About')),
-                    PopupMenuItem(value: _skillsKey, child: const Text('Skills')),
-                    PopupMenuItem(value: _experienceKey, child: const Text('Experience')),
-                    PopupMenuItem(value: _servicesKey, child: const Text('Services')),
-                    PopupMenuItem(value: _pricingKey, child: const Text('Pricing')),
-                    PopupMenuItem(value: _projectsKey, child: const Text('Projects')),
-                    PopupMenuItem(value: _contactKey, child: const Text('Contact Me')),
+                    PopupMenuItem(
+                      value: _skillsKey,
+                      child: const Text('Skills'),
+                    ),
+                    PopupMenuItem(
+                      value: _experienceKey,
+                      child: const Text('Experience'),
+                    ),
+                    PopupMenuItem(
+                      value: _servicesKey,
+                      child: const Text('Services'),
+                    ),
+                    PopupMenuItem(
+                      value: _pricingKey,
+                      child: const Text('Pricing'),
+                    ),
+                    PopupMenuItem(
+                      value: _projectsKey,
+                      child: const Text('Projects'),
+                    ),
+                    PopupMenuItem(
+                      value: _contactKey,
+                      child: const Text('Contact Me'),
+                    ),
                   ],
                 ),
               ],

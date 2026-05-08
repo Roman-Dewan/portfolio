@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:roman_portfolio/core/layout/responsive_layout.dart';
+import 'package:roman_portfolio/presentation/providers/portfolio_provider.dart';
 
-class ContactSection extends StatelessWidget {
+class ContactSection extends ConsumerWidget {
   const ContactSection({super.key});
 
   Future<void> _launchUrl(String url) async {
@@ -14,7 +16,9 @@ class ContactSection extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profile = ref.watch(portfolioProvider).profileInfo;
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
@@ -30,12 +34,12 @@ class ContactSection extends StatelessWidget {
           ).animate().fade().slideY(),
           const SizedBox(height: 32),
           ResponsiveLayout(
-            mobile: _buildMobileLayout(context),
-            tablet: _buildMobileLayout(context), // Fallback to mobile layout for tablet to prevent overflow
+            mobile: _buildMobileLayout(context, profile),
+            tablet: _buildMobileLayout(context, profile), // Fallback to mobile layout for tablet to prevent overflow
             desktop: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(child: _buildContactInfo(context)),
+                Expanded(child: _buildContactInfo(context, profile)),
                 const SizedBox(width: 80),
                 Expanded(flex: 2, child: _buildContactForm(context)),
               ],
@@ -46,38 +50,41 @@ class ContactSection extends StatelessWidget {
     );
   }
 
-  Widget _buildMobileLayout(BuildContext context) {
+  Widget _buildMobileLayout(BuildContext context, dynamic profile) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildContactInfo(context),
+        _buildContactInfo(context, profile),
         const SizedBox(height: 48),
         _buildContactForm(context),
       ],
     );
   }
 
-  Widget _buildContactInfo(BuildContext context) {
+  Widget _buildContactInfo(BuildContext context, dynamic profile) {
     final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Get in Touch", style: theme.textTheme.headlineMedium),
         const SizedBox(height: 24),
-        _contactItem(context, Icons.email, "roman.dewan18@gmail.com", () => _launchUrl("mailto:roman.dewan18@gmail.com")),
+        _contactItem(context, Icons.email, profile.email, () => _launchUrl("mailto:${profile.email}")),
         const SizedBox(height: 16),
-        _contactItem(context, Icons.phone, "+8801521-738765", () => _launchUrl("tel:+8801521738765")),
+        _contactItem(context, Icons.phone, profile.phone, () {
+          final cleanPhone = profile.phone.replaceAll(RegExp(r'[^0-9+]'), '');
+          _launchUrl("tel:$cleanPhone");
+        }),
         const SizedBox(height: 32),
         Row(
           children: [
             IconButton(
               icon: const FaIcon(FontAwesomeIcons.linkedin),
-              onPressed: () => _launchUrl("https://linkedin.com/"), 
+              onPressed: () => _launchUrl(profile.linkedinUrl), 
               color: theme.colorScheme.secondary,
             ),
             IconButton(
               icon: const FaIcon(FontAwesomeIcons.github),
-              onPressed: () => _launchUrl("https://github.com/"), 
+              onPressed: () => _launchUrl(profile.githubUrl), 
               color: theme.colorScheme.secondary,
             ),
           ],

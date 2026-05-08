@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:roman_portfolio/core/layout/responsive_layout.dart';
+import 'package:roman_portfolio/presentation/providers/portfolio_provider.dart';
 
-class EducationSection extends StatelessWidget {
+class EducationSection extends ConsumerWidget {
   const EducationSection({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final educationList = ref.watch(portfolioProvider).education;
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
@@ -21,12 +25,15 @@ class EducationSection extends StatelessWidget {
             style: Theme.of(context).textTheme.displayMedium,
           ).animate().fade().slideY(),
           const SizedBox(height: 32),
-          _buildTimelineItem(
-            context,
-            title: "B.Sc. in Computer Science and Engineering",
-            subtitle: "Uttara University",
-            date: "2023 - Present",
-          ).animate().fade(delay: 200.ms).slideY(),
+          ...educationList.map((edu) => Padding(
+            padding: const EdgeInsets.only(bottom: 24),
+            child: _buildTimelineItem(
+              context,
+              title: edu.title,
+              subtitle: edu.subtitle,
+              date: edu.date,
+            ).animate().fade(delay: 200.ms).slideY(),
+          )),
         ],
       ),
     );

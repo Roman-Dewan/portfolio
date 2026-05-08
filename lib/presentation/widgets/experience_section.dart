@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:roman_portfolio/core/layout/responsive_layout.dart';
+import 'package:roman_portfolio/presentation/providers/portfolio_provider.dart';
 
-class ExperienceSection extends StatelessWidget {
+class ExperienceSection extends ConsumerWidget {
   const ExperienceSection({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final experienceList = ref.watch(portfolioProvider).experience;
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
@@ -21,12 +25,15 @@ class ExperienceSection extends StatelessWidget {
             style: Theme.of(context).textTheme.displayMedium,
           ).animate().fade().slideY(),
           const SizedBox(height: 32),
-          _buildTimelineItem(
-            context,
-            title: "App Developer (Flutter)",
-            subtitle: "EON SYSTEMS",
-            date: "December 2025 - Present",
-          ).animate().fade(delay: 200.ms).slideY(),
+          ...experienceList.map((exp) => Padding(
+            padding: const EdgeInsets.only(bottom: 24),
+            child: _buildTimelineItem(
+              context,
+              title: exp.title,
+              subtitle: exp.subtitle,
+              date: exp.date,
+            ).animate().fade(delay: 200.ms).slideY(),
+          )),
         ],
       ),
     );

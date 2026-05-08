@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:roman_portfolio/core/layout/responsive_layout.dart';
+import 'package:roman_portfolio/presentation/providers/portfolio_provider.dart';
 
-class SkillsSection extends StatelessWidget {
+class SkillsSection extends ConsumerWidget {
   const SkillsSection({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final skills = [
-      "Flutter", "Dart", "C", "C++", "C#", "Java", "Python", "HTML5", "CSS3", "SQL"
-    ];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final skills = ref.watch(portfolioProvider).skills;
 
     return Container(
       width: double.infinity,
