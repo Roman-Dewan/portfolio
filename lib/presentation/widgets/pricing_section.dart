@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:roman_portfolio/core/layout/responsive_layout.dart';
+import 'package:roman_portfolio/presentation/providers/portfolio_provider.dart';
+import 'package:roman_portfolio/data/models/portfolio_models.dart';
 
-class PricingSection extends StatelessWidget {
+class PricingSection extends ConsumerWidget {
   const PricingSection({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final plans = ref.watch(portfolioProvider).pricingPlans;
+    
+    // Use a fixed height so all cards are identical in size
+    const double cardHeight = 650.0;
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
@@ -27,78 +35,49 @@ class PricingSection extends StatelessWidget {
           const SizedBox(height: 64),
           ResponsiveLayout(
             mobile: Column(
-              children: _buildPricingCards(context),
+              children: plans.map((plan) => Padding(
+                padding: const EdgeInsets.only(bottom: 32),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: cardHeight,
+                  child: _PricingCard(plan: plan),
+                ),
+              )).toList(),
+            ),
+            tablet: Wrap(
+              spacing: 24,
+              runSpacing: 24,
+              alignment: WrapAlignment.center,
+              children: plans.map((plan) => SizedBox(
+                width: 320,
+                height: cardHeight,
+                child: _PricingCard(plan: plan),
+              )).toList(),
             ),
             desktop: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: _buildPricingCards(context),
+              children: plans.map((plan) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: SizedBox(
+                    width: 320,
+                    height: cardHeight,
+                    child: _PricingCard(plan: plan),
+                  ),
+                );
+              }).toList(),
             ),
           ),
         ],
       ),
     );
   }
-
-  List<Widget> _buildPricingCards(BuildContext context) {
-    final isDesktop = ResponsiveLayout.isDesktop(context);
-    return [
-      _PricingCard(
-        title: "Basic App",
-        price: "Contact",
-        description: "Perfect for simple MVP apps.",
-        features: const [
-          "Single Platform (Android/iOS)",
-          "Basic UI/UX Design",
-          "No API Integration",
-          "1 Month Support"
-        ],
-      ).animate().fade(delay: 400.ms).slideY(),
-      SizedBox(height: isDesktop ? 0 : 32, width: isDesktop ? 32 : 0),
-      _PricingCard(
-        title: "Standard App",
-        price: "Contact",
-        description: "Great for most standard apps.",
-        isPopular: true,
-        features: const [
-          "Cross Platform (Android & iOS)",
-          "Premium Custom UI/UX",
-          "REST API Integration",
-          "State Management",
-          "3 Months Support"
-        ],
-      ).animate().fade(delay: 500.ms).scale(),
-      SizedBox(height: isDesktop ? 0 : 32, width: isDesktop ? 32 : 0),
-      _PricingCard(
-        title: "Enterprise Solution",
-        price: "Contact",
-        description: "For complex, scalable needs.",
-        features: const [
-          "Web, Android & iOS",
-          "Advanced Animations & Polish",
-          "Complex API/Backend Auth",
-          "Advanced Local Caching",
-          "6 Months Support"
-        ],
-      ).animate().fade(delay: 600.ms).slideY(),
-    ];
-  }
 }
 
 class _PricingCard extends StatelessWidget {
-  final String title;
-  final String price;
-  final String description;
-  final List<String> features;
-  final bool isPopular;
+  final PricingPlan plan;
 
-  const _PricingCard({
-    required this.title,
-    required this.price,
-    required this.description,
-    required this.features,
-    this.isPopular = false,
-  });
+  const _PricingCard({required this.plan});
 
   @override
   Widget build(BuildContext context) {
@@ -108,12 +87,11 @@ class _PricingCard extends StatelessWidget {
         : Colors.white;
 
     return Container(
-      width: ResponsiveLayout.isDesktop(context) ? 320 : double.infinity,
       padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
         color: cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: isPopular
+        border: plan.isPopular
             ? Border.all(color: theme.colorScheme.secondary, width: 2)
             : Border.all(color: theme.brightness == Brightness.dark ? Colors.white12 : Colors.black12, width: 1),
         boxShadow: [
@@ -127,7 +105,7 @@ class _PricingCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (isPopular)
+          if (plan.isPopular)
             Container(
               margin: const EdgeInsets.only(bottom: 16),
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -143,37 +121,44 @@ class _PricingCard extends StatelessWidget {
                 ),
               ),
             ),
-          Text(title, style: theme.textTheme.headlineMedium),
+          if (!plan.isPopular) const SizedBox(height: 38), // placeholder to balance the 'Most Popular' tag
+          Text(plan.title, style: theme.textTheme.headlineMedium),
           const SizedBox(height: 8),
-          Text(description, style: theme.textTheme.bodyMedium),
+          Text(plan.description, style: theme.textTheme.bodyMedium),
           const SizedBox(height: 24),
           Text(
-            price,
+            plan.price,
             style: theme.textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 32),
           const Divider(),
           const SizedBox(height: 24),
-          ...features.map((f) => Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(Icons.check_circle_rounded,
-                        color: theme.colorScheme.secondary, size: 20),
-                    const SizedBox(width: 12),
-                    Expanded(child: Text(f, style: theme.textTheme.bodyMedium)),
-                  ],
-                ),
-              )),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: plan.features.map((f) => Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(Icons.check_circle_rounded,
+                              color: theme.colorScheme.secondary, size: 20),
+                          const SizedBox(width: 12),
+                          Expanded(child: Text(f, style: theme.textTheme.bodyMedium)),
+                        ],
+                      ),
+                    )).toList(),
+              ),
+            ),
+          ),
           const SizedBox(height: 32),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                backgroundColor: isPopular ? theme.colorScheme.secondary : null,
-                foregroundColor: isPopular ? Colors.white : null,
+                backgroundColor: plan.isPopular ? theme.colorScheme.secondary : null,
+                foregroundColor: plan.isPopular ? Colors.white : null,
               ),
               child: const Text("Get Started"),
             ),

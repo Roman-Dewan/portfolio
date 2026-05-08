@@ -30,14 +30,8 @@ class ContactSection extends StatelessWidget {
           ).animate().fade().slideY(),
           const SizedBox(height: 32),
           ResponsiveLayout(
-            mobile: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildContactInfo(context),
-                const SizedBox(height: 48),
-                _buildContactForm(context),
-              ],
-            ),
+            mobile: _buildMobileLayout(context),
+            tablet: _buildMobileLayout(context), // Fallback to mobile layout for tablet to prevent overflow
             desktop: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -49,6 +43,17 @@ class ContactSection extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+
+  Widget _buildMobileLayout(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildContactInfo(context),
+        const SizedBox(height: 48),
+        _buildContactForm(context),
+      ],
     );
   }
 
@@ -67,12 +72,12 @@ class ContactSection extends StatelessWidget {
           children: [
             IconButton(
               icon: const FaIcon(FontAwesomeIcons.linkedin),
-              onPressed: () => _launchUrl("https://linkedin.com/"), // Replace with actual link
+              onPressed: () => _launchUrl("https://linkedin.com/"), 
               color: theme.colorScheme.secondary,
             ),
             IconButton(
               icon: const FaIcon(FontAwesomeIcons.github),
-              onPressed: () => _launchUrl("https://github.com/"), // Replace with actual link
+              onPressed: () => _launchUrl("https://github.com/"), 
               color: theme.colorScheme.secondary,
             ),
           ],
@@ -89,7 +94,8 @@ class ContactSection extends StatelessWidget {
         children: [
           Icon(icon, color: theme.colorScheme.secondary),
           const SizedBox(width: 16),
-          Text(text, style: theme.textTheme.bodyLarge),
+          // Wrap text in Expanded to prevent overflow on smaller screens
+          Expanded(child: Text(text, style: theme.textTheme.bodyLarge)),
         ],
       ),
     );

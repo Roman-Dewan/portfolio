@@ -1,34 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:roman_portfolio/core/layout/responsive_layout.dart';
+import 'package:roman_portfolio/presentation/providers/portfolio_provider.dart';
+import 'package:roman_portfolio/data/models/portfolio_models.dart';
 
-class ProjectsSection extends StatelessWidget {
+class ProjectsSection extends ConsumerWidget {
   const ProjectsSection({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final projects = [
-      {
-        "title": "Blood Donation App",
-        "description": "Fully completed. Connected donors and recipients based on blood type/location. Features full UI/UX, API service architecture, and user authentication."
-      },
-      {
-        "title": "E-learning Platform",
-        "description": "Cross-platform (App & Web) learning solution."
-      },
-      {
-        "title": "E-commerce App",
-        "description": "Modern shopping experience with seamless navigation."
-      },
-      {
-        "title": "Task Manager App",
-        "description": "Complete productivity app with Provider state management, RESTful APIs, local caching, and full CRUD functionality."
-      },
-      {
-        "title": "Pet Mates Website",
-        "description": "Dynamic frontend pet adoption platform using HTML/CSS/JS."
-      },
-    ];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final projects = ref.watch(portfolioProvider).projects;
+
+    // Fixed height ensures every project card is identical in height
+    const double cardHeight = 360.0;
 
     return Container(
       width: double.infinity,
@@ -44,23 +29,39 @@ class ProjectsSection extends StatelessWidget {
             style: Theme.of(context).textTheme.displayMedium,
           ).animate().fade().slideY(),
           const SizedBox(height: 32),
-          Wrap(
-            spacing: 24,
-            runSpacing: 24,
-            children: projects.map((p) => _buildProjectCard(context, p)).toList(),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final isDesktop = constraints.maxWidth > 1024;
+              final isTablet = constraints.maxWidth >= 768 && constraints.maxWidth <= 1024;
+              
+              double cardWidth = constraints.maxWidth;
+              if (isDesktop) {
+                cardWidth = (constraints.maxWidth - 48) / 3; // 3 items per row
+              } else if (isTablet) {
+                cardWidth = (constraints.maxWidth - 24) / 2; // 2 items per row
+              }
+
+              return Wrap(
+                spacing: 24,
+                runSpacing: 24,
+                children: projects.map((p) => SizedBox(
+                  width: cardWidth,
+                  height: cardHeight,
+                  child: _buildProjectCard(context, p),
+                )).toList(),
+              );
+            }
           ),
         ],
       ),
     );
   }
 
-  Widget _buildProjectCard(BuildContext context, Map<String, String> project) {
+  Widget _buildProjectCard(BuildContext context, ProjectItem project) {
     final theme = Theme.of(context);
     final cardColor = theme.brightness == Brightness.dark ? const Color(0xFF1C1C1E) : Colors.white;
-    final isDesktop = ResponsiveLayout.isDesktop(context);
 
     return Container(
-      width: isDesktop ? 400 : double.infinity,
       padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
         color: cardColor,
@@ -77,14 +78,26 @@ class ProjectsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(project["title"]!, style: theme.textTheme.headlineMedium),
+          Text(
+            project.title, 
+            style: theme.textTheme.headlineMedium,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
           const SizedBox(height: 16),
-          Text(project["description"]!, style: theme.textTheme.bodyMedium?.copyWith(height: 1.5)),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Text(project.description, style: theme.textTheme.bodyMedium?.copyWith(height: 1.5)),
+            ),
+          ),
           const SizedBox(height: 24),
-          TextButton(
-            onPressed: () {},
-            style: TextButton.styleFrom(padding: EdgeInsets.zero, alignment: Alignment.centerLeft),
-            child: const Text("View Project"),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: TextButton(
+              onPressed: () {},
+              style: TextButton.styleFrom(padding: EdgeInsets.zero, alignment: Alignment.centerLeft),
+              child: const Text("View Project"),
+            ),
           )
         ],
       ),
