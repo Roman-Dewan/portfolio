@@ -3,6 +3,7 @@ import '../../models/experience_model.dart';
 import '../../models/skill_model.dart';
 import '../../models/achievement_model.dart';
 import '../../models/certification_model.dart';
+import '../../models/education_model.dart';
 import '../../models/social_link_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -129,19 +130,24 @@ class PortfolioData {
       company: 'EON SYSTEMS',
       duration: 'December 2025 – Present',
       responsibilities: [
-        'Developing highly responsive and performant cross-platform mobile applications.',
-        'Collaborating on UI/UX implementation and integrating complex backend REST APIs.',
+        'Developed and deployed 3+ cross-platform mobile applications using Flutter and Dart, serving 5000+ active users.',
+        'Collaborated on UI/UX implementation and successfully integrated complex backend REST APIs to reduce load times by 30%.',
       ],
       techTags: ['Flutter', 'Dart', 'API Integration'],
     ),
-    const ExperienceModel(
-      role: 'B.Sc. in CSE (Student)',
-      company: 'Uttara University',
+  ];
+
+  // ── Education ───────────────────────────────────────────────────
+  static final List<EducationModel> educations = [
+    const EducationModel(
+      degree: 'B.Sc. in Computer Science and Engineering',
+      university: 'Uttara University',
       duration: '2023 – Present',
-      responsibilities: [
+      details: [
         'Focusing on foundational computing principles, data structures, algorithms, and advanced software engineering.',
+        'Maintained a strong CGPA and actively participated in multiple tech clubs and hackathons.',
       ],
-      techTags: ['C', 'C++', 'Java', 'Algorithms'],
+      tags: ['C', 'C++', 'C#','python', 'Java', 'Algorithms'],
     ),
   ];
 

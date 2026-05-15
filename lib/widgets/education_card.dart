@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_text_styles.dart';
-import '../models/experience_model.dart';
+import '../models/education_model.dart';
 import 'skill_chip.dart';
 
-class ExperienceCard extends StatelessWidget {
-  final ExperienceModel experience;
-  final bool isLeft;
+class EducationCard extends StatelessWidget {
+  final EducationModel education;
 
-  const ExperienceCard({
+  const EducationCard({
     super.key,
-    required this.experience,
-    this.isLeft = true,
+    required this.education,
   });
 
   @override
@@ -41,7 +39,7 @@ class ExperienceCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  experience.role,
+                  education.degree,
                   style: AppTextStyles.sectionTitle(isMobile: true).copyWith(
                     fontSize: 20,
                     color: AppColors.textPrimary,
@@ -56,7 +54,7 @@ class ExperienceCard extends StatelessWidget {
                   border: Border.all(color: AppColors.secondary.withValues(alpha: 0.3)),
                 ),
                 child: Text(
-                  experience.duration,
+                  education.duration,
                   style: AppTextStyles.monospace(
                     fontSize: 12,
                     color: Colors.white,
@@ -67,7 +65,7 @@ class ExperienceCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            experience.company,
+            education.university,
             style: AppTextStyles.monospace(
               fontSize: 15,
               fontWeight: FontWeight.w600,
@@ -75,7 +73,7 @@ class ExperienceCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          ...experience.responsibilities.map(
+          ...education.details.map(
             (resp) => Padding(
               padding: const EdgeInsets.only(bottom: 12),
               child: Row(
@@ -110,7 +108,7 @@ class ExperienceCard extends StatelessWidget {
           Wrap(
             spacing: 8,
             runSpacing: 8,
-            children: experience.techTags
+            children: education.tags
                 .map((tag) => SkillChip(
                       label: tag,
                       fontSize: 11,
