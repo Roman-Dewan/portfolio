@@ -41,32 +41,21 @@ class _AboutSectionState extends State<AboutSection> {
         }
       },
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 80, horizontal: isMobile ? 24 : 48),
+        padding: EdgeInsets.symmetric(
+          vertical: 80,
+          horizontal: isMobile ? 24 : 48,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SectionTitle(
               title: AppStrings.aboutMe,
-              subtitle: "Get to know my professional background and engineering philosophy.",
+              subtitle:
+                  "Get to know my professional background and engineering philosophy.",
             ),
             const SizedBox(height: 56),
             if (_isVisible)
-              isDesktop
-                  ? Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildLeftCard(),
-                        const SizedBox(width: 64),
-                        Expanded(child: _buildRightContent()),
-                      ],
-                    )
-                  : Column(
-                      children: [
-                        _buildLeftCard(),
-                        const SizedBox(height: 40),
-                        _buildRightContent(),
-                      ],
-                    )
+              _buildRightContent()
             else
               const SizedBox(height: 300),
           ],
@@ -75,86 +64,71 @@ class _AboutSectionState extends State<AboutSection> {
     );
   }
 
-  Widget _buildLeftCard() {
-    return Container(
-      width: 260,
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.border, width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.05),
-            blurRadius: 20,
-            spreadRadius: 2,
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Container(
-            width: 120,
-            height: 120,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColors.background,
-              border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
-            ),
-            child: const Icon(Icons.auto_awesome, size: 50, color: AppColors.primary),
-          ),
-          const SizedBox(height: 24),
-          Text(
-            PortfolioData.name,
-            style: AppTextStyles.sectionTitle(isMobile: true).copyWith(fontSize: 20),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            PortfolioData.tagline,
-            style: AppTextStyles.bodyText(fontSize: 13, color: AppColors.primary),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    ).animate().fade(duration: 600.ms).scaleXY(begin: 0.95, end: 1.0);
-  }
-
   Widget _buildRightContent() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          PortfolioData.summary,
-          style: AppTextStyles.bodyText(fontSize: 16),
-        ).animate().fade(delay: 150.ms, duration: 600.ms).slideX(begin: 0.05, end: 0),
-        const SizedBox(height: 32),
+              PortfolioData.aboutMe,
+              style: AppTextStyles.bodyText(fontSize: 16),
+              textAlign: TextAlign.center,
+            )
+            .animate()
+            .fade(delay: 150.ms, duration: 600.ms)
+            .slideY(begin: 0.05, end: 0),
+        const SizedBox(height: 40),
         // Premium Grid Stats
         LayoutBuilder(
           builder: (context, constraints) {
             final double gap = 16.0;
-            final double itemWidth = constraints.maxWidth > 400 ? (constraints.maxWidth - gap) / 2 : constraints.maxWidth;
+            final double itemWidth = constraints.maxWidth > 400
+                ? (constraints.maxWidth - gap) / 2
+                : constraints.maxWidth;
             return Wrap(
               spacing: gap,
               runSpacing: gap,
+              alignment: WrapAlignment.center,
               children: [
-                _buildStatContainer(itemWidth, "1+", "Years Experience", AppColors.primary),
-                _buildStatContainer(itemWidth, "5+", "Major Projects", AppColors.secondary),
-                _buildStatContainer(itemWidth, "${PortfolioData.leetcodeCount}+", "LeetCode Solved", AppColors.primary),
-                _buildStatContainer(itemWidth, "${PortfolioData.codeforcesCount}+", "Codeforces Solved", AppColors.secondary),
+                _buildStatContainer(
+                  itemWidth,
+                  "1+",
+                  "Years Experience",
+                  AppColors.primary,
+                ),
+                _buildStatContainer(
+                  itemWidth,
+                  "5+",
+                  "Major Projects",
+                  AppColors.secondary,
+                ),
+                _buildStatContainer(
+                  itemWidth,
+                  "${PortfolioData.leetcodeCount}+",
+                  "LeetCode Solved",
+                  AppColors.primary,
+                ),
+                _buildStatContainer(
+                  itemWidth,
+                  "${PortfolioData.codeforcesCount}+",
+                  "Codeforces Solved",
+                  AppColors.secondary,
+                ),
               ],
             );
           },
         ).animate().fade(delay: 300.ms, duration: 600.ms),
-        const SizedBox(height: 40),
+        const SizedBox(height: 48),
         Text(
           "Currently Learning & Exploring",
-          style: AppTextStyles.sectionTitle(isMobile: true).copyWith(fontSize: 18),
+          style: AppTextStyles.sectionTitle(
+            isMobile: true,
+          ).copyWith(fontSize: 18),
         ).animate().fade(delay: 450.ms),
         const SizedBox(height: 16),
         Wrap(
           spacing: 10,
           runSpacing: 10,
+          alignment: WrapAlignment.center,
           children: PortfolioData.currentlyLearning
               .map((item) => SkillChip(label: item, color: AppColors.primary))
               .toList(),
@@ -169,7 +143,12 @@ class _AboutSectionState extends State<AboutSection> {
     );
   }
 
-  Widget _buildStatContainer(double width, String val, String label, Color accentColor) {
+  Widget _buildStatContainer(
+    double width,
+    String val,
+    String label,
+    Color accentColor,
+  ) {
     return Container(
       width: width,
       padding: const EdgeInsets.all(20),
@@ -183,16 +162,13 @@ class _AboutSectionState extends State<AboutSection> {
         children: [
           Text(
             val,
-            style: AppTextStyles.heroName(context, isMobile: true).copyWith(
-              fontSize: 32,
-              color: accentColor,
-            ),
+            style: AppTextStyles.heroName(
+              context,
+              isMobile: true,
+            ).copyWith(fontSize: 32, color: accentColor),
           ),
           const SizedBox(height: 4),
-          Text(
-            label,
-            style: AppTextStyles.bodyText(fontSize: 14),
-          ),
+          Text(label, style: AppTextStyles.bodyText(fontSize: 14)),
         ],
       ),
     );

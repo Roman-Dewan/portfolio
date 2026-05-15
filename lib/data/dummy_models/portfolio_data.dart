@@ -16,7 +16,9 @@ class PortfolioData {
     'Software Developer',
   ];
   static const String summary =
-      'Highly motivated and dedicated Flutter Developer currently pursuing a B.Sc. in CSE at Uttara University. Consistent in self-learning with a strong passion for developing beautiful, efficient cross-platform mobile apps. Eager to contribute my skills to a professional team.';
+      'I build beautiful, high-performance cross-platform mobile apps. Currently pursuing my B.Sc. in CSE at Uttara University and seeking a professional team to grow with.';
+  static const String aboutMe =
+      'I am a highly motivated and dedicated Flutter Developer currently pursuing a B.Sc. in CSE at Uttara University. Consistent in self-learning with a strong passion for developing beautiful, efficient cross-platform mobile apps. I love tackling complex problems, which drives my regular practice on platforms like LeetCode and Codeforces. Eager to contribute my skills to a professional team and continue growing as an engineer.';
   static const String email = 'roman.dewan18@gmail.com';
   static const String phone = '+8801521-738765';
   static const String location = 'Gazipur, Dhaka, Bangladesh';

@@ -93,7 +93,7 @@ class HeroSection extends StatelessWidget {
         AnimatedTextWidget(
           texts: PortfolioData.animatedRoles,
         ).animate().fade(delay: 400.ms, duration: 600.ms),
-        const SizedBox(height: 24),
+        const SizedBox(height: 36),
         Text(
           PortfolioData.summary,
           style: AppTextStyles.bodyText(fontSize: isMobile ? 15 : 18),
