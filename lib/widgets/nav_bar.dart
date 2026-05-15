@@ -4,16 +4,13 @@ import 'package:provider/provider.dart';
 import 'package:scroll_to_id/scroll_to_id.dart';
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_text_styles.dart';
-import '../data/dummy/portfolio_data.dart';
+import '../data/dummy_models/portfolio_data.dart';
 import '../providers/portfolio_provider.dart';
 
 class NavBar extends StatelessWidget {
   final ScrollToId scrollToId;
 
-  const NavBar({
-    super.key,
-    required this.scrollToId,
-  });
+  const NavBar({super.key, required this.scrollToId});
 
   static const List<Map<String, String>> navItems = [
     {'label': 'Home', 'id': 'home'},
@@ -38,7 +35,11 @@ class NavBar extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 48),
           decoration: BoxDecoration(
             color: AppColors.background.withValues(alpha: 0.75),
-            border: Border(bottom: BorderSide(color: AppColors.border.withValues(alpha: 0.5))),
+            border: Border(
+              bottom: BorderSide(
+                color: AppColors.border.withValues(alpha: 0.5),
+              ),
+            ),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -48,33 +49,45 @@ class NavBar extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () {
                     provider.setNavIndex(0);
-                    scrollToId.animateTo('home', duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+                    scrollToId.animateTo(
+                      'home',
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.easeInOut,
+                    );
                   },
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: AppColors.primaryGradient,
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.primary.withValues(alpha: 0.4),
-                              blurRadius: 8,
-                            ),
-                          ],
-                        ),
-                        child: const Text(
-                          "R",
-                          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Text(
-                        PortfolioData.name.split(' ').last,
-                        style: AppTextStyles.sectionTitle(isMobile: true).copyWith(fontSize: 20),
-                      ),
-                    ],
+                  // child: Row(
+                  //   children: [
+                  //     Container(
+                  //       width: 36,
+                  //       height: 36,
+                  //       decoration: BoxDecoration(
+                  //         shape: BoxShape.circle,
+                  //         boxShadow: [
+                  //           BoxShadow(
+                  //             color: AppColors.primary.withValues(alpha: 0.4),
+                  //             blurRadius: 8,
+                  //           ),
+                  //         ],
+                  //       ),
+                  //       child: ClipOval(
+                  //         child: Image.asset(
+                  //           'assets/images/roman-professional.webp',
+                  //           fit: BoxFit.cover,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     const SizedBox(width: 12),
+                  //     Text(
+                  //       PortfolioData.name.split(' ').last,
+                  //       style: AppTextStyles.sectionTitle(isMobile: true).copyWith(fontSize: 20),
+                  //     ),
+                  //   ],
+                  // ),
+                  child: Text(
+                    "<${PortfolioData.name}>",
+                    style: AppTextStyles.sectionTitle(
+                      isMobile: true,
+                    ).copyWith(fontSize: 20),
                   ),
                 ),
               ),
@@ -96,21 +109,23 @@ class NavBar extends StatelessWidget {
                           isActive: isActive,
                           onTap: () {
                             provider.setNavIndex(index);
-                            scrollToId.animateTo(item['id']!, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+                            scrollToId.animateTo(
+                              item['id']!,
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.easeInOut,
+                            );
                           },
                         ),
                       );
                     }),
                     const SizedBox(width: 16),
-                    Container(
-                      height: 24,
-                      width: 1,
-                      color: AppColors.border,
-                    ),
+                    Container(height: 24, width: 1, color: AppColors.border),
                     const SizedBox(width: 16),
                     IconButton(
                       icon: Icon(
-                        provider.isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                        provider.isDarkMode
+                            ? Icons.light_mode
+                            : Icons.dark_mode,
                         color: AppColors.primary,
                         size: 20,
                       ),
@@ -167,12 +182,19 @@ class _NavItemState extends State<_NavItem> {
           ),
           child: Text(
             widget.label,
-            style: AppTextStyles.monospace(
-              fontSize: 14,
-              color: widget.isActive
-                  ? AppColors.primary
-                  : (_isHovered ? AppColors.textPrimary : AppColors.textSecondary),
-            ).copyWith(fontWeight: widget.isActive ? FontWeight.bold : FontWeight.normal),
+            style:
+                AppTextStyles.monospace(
+                  fontSize: 14,
+                  color: widget.isActive
+                      ? AppColors.primary
+                      : (_isHovered
+                            ? AppColors.textPrimary
+                            : AppColors.textSecondary),
+                ).copyWith(
+                  fontWeight: widget.isActive
+                      ? FontWeight.bold
+                      : FontWeight.normal,
+                ),
           ),
         ),
       ),

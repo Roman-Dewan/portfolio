@@ -19,59 +19,101 @@ class PortfolioData {
       'Highly motivated and dedicated Flutter Developer currently pursuing a B.Sc. in CSE at Uttara University. Consistent in self-learning with a strong passion for developing beautiful, efficient cross-platform mobile apps. Eager to contribute my skills to a professional team.';
   static const String email = 'roman.dewan18@gmail.com';
   static const String phone = '+8801521-738765';
-  static const String location = 'Tongi, Gazipur, Dhaka, Bangladesh';
-  static const String profileImagePath = 'assets/images/profile.png';
+  static const String location = 'Gazipur, Dhaka, Bangladesh';
+  static const String profileImagePath =
+      'assets/images/roman-professional.webp';
   static const String resumeUrl = 'https://linkedin.com/';
-  static const int leetcodeCount = 120;   // example problems solved
-  static const int codeforcesCount = 85;  // example problems solved
+  static const int leetcodeCount = 120; // example problems solved
+  static const int codeforcesCount = 85; // example problems solved
 
   // ── Social Links ────────────────────────────────────────────────
   static final List<SocialLinkModel> socialLinks = [
-    const SocialLinkModel(label: 'GitHub', url: 'https://github.com/', icon: FontAwesomeIcons.github),
-    const SocialLinkModel(label: 'LinkedIn', url: 'https://linkedin.com/', icon: FontAwesomeIcons.linkedin),
-    const SocialLinkModel(label: 'Email', url: 'mailto:roman.dewan18@gmail.com', icon: FontAwesomeIcons.envelope),
+    const SocialLinkModel(
+      label: 'GitHub',
+      url: 'https://github.com/Roman-Dewan',
+      icon: FontAwesomeIcons.github,
+    ),
+    const SocialLinkModel(
+      label: 'LinkedIn',
+      url: 'https://www.linkedin.com/in/md-roman-dewan-462a042b6/',
+      icon: FontAwesomeIcons.linkedin,
+    ),
+    const SocialLinkModel(
+      label: 'Email',
+      url: 'mailto:roman.dewan18@gmail.com',
+      icon: FontAwesomeIcons.envelope,
+    ),
   ];
 
   // ── Skills ──────────────────────────────────────────────────────
   static final List<SkillModel> skills = [
-    const SkillModel(category: 'Languages', skills: ['Dart', 'C', 'C++', 'C#', 'Java', 'Python', 'SQL', 'HTML5', 'CSS3']),
-    const SkillModel(category: 'Frameworks & Tech', skills: ['Flutter', 'Provider', 'REST APIs', 'Git', 'Cross-Platform Dev']),
-    const SkillModel(category: 'Core Knowledge', skills: ['Data Structures', 'Algorithms', 'Object-Oriented Programming', 'UI/UX Implementation']),
+    const SkillModel(
+      category: 'Languages',
+      skills: [
+        'Dart',
+        'C',
+        'C++',
+        'C#',
+        'Java',
+        'Python',
+        'SQL',
+        'HTML5',
+        'CSS3',
+      ],
+    ),
+    const SkillModel(
+      category: 'Frameworks & Tech',
+      skills: ['Flutter', 'Provider', 'REST APIs', 'Git', 'Cross-Platform Dev'],
+    ),
+    const SkillModel(
+      category: 'Core Knowledge',
+      skills: [
+        'Data Structures',
+        'Algorithms',
+        'Object-Oriented Programming',
+        'UI/UX Implementation',
+      ],
+    ),
   ];
 
   // ── Projects ────────────────────────────────────────────────────
   static final List<ProjectModel> projects = [
     const ProjectModel(
       title: 'Blood Donation App',
-      description: 'Fully completed. Connected donors and recipients based on blood type/location. Features full UI/UX, API service architecture, and user authentication.',
+      description:
+          'Fully completed. Connected donors and recipients based on blood type/location. Features full UI/UX, API service architecture, and user authentication.',
       techStack: ['Flutter', 'Dart', 'REST API'],
       githubUrl: 'https://github.com/',
       liveUrl: null,
     ),
     const ProjectModel(
       title: 'E-learning Platform',
-      description: 'Cross-platform (App & Web) learning solution featuring modern design and dynamic responsive layout.',
+      description:
+          'Cross-platform (App & Web) learning solution featuring modern design and dynamic responsive layout.',
       techStack: ['Flutter', 'Provider'],
       githubUrl: 'https://github.com/',
       liveUrl: null,
     ),
     const ProjectModel(
       title: 'E-commerce App',
-      description: 'Modern shopping experience with seamless navigation, state management, and elegant cart flows.',
+      description:
+          'Modern shopping experience with seamless navigation, state management, and elegant cart flows.',
       techStack: ['Flutter', 'Dart'],
       githubUrl: 'https://github.com/',
       liveUrl: null,
     ),
     const ProjectModel(
       title: 'Task Manager App',
-      description: 'Complete productivity app with Provider state management, RESTful APIs, local caching, and full CRUD functionality.',
+      description:
+          'Complete productivity app with Provider state management, RESTful APIs, local caching, and full CRUD functionality.',
       techStack: ['Flutter', 'Provider', 'Local Storage'],
       githubUrl: 'https://github.com/',
       liveUrl: null,
     ),
     const ProjectModel(
       title: 'Pet Mates Website',
-      description: 'Dynamic frontend pet adoption platform structured using standard semantic interfaces.',
+      description:
+          'Dynamic frontend pet adoption platform structured using standard semantic interfaces.',
       techStack: ['HTML5', 'CSS3', 'JavaScript'],
       githubUrl: 'https://github.com/',
       liveUrl: null,
@@ -107,7 +149,8 @@ class PortfolioData {
       year: '2025',
       title: 'Completed Full Stack Flutter Training',
       organization: 'Professional Training Track',
-      description: 'Mastered core architectural concepts, state management, and production UI polish.',
+      description:
+          'Mastered core architectural concepts, state management, and production UI polish.',
     ),
   ];
 
@@ -117,7 +160,8 @@ class PortfolioData {
       year: '2024',
       title: 'Cross-Platform Mobile App Development',
       issuer: 'Online Learning Platform',
-      description: 'Comprehensive study of Dart programming language and Flutter widget architecture.',
+      description:
+          'Comprehensive study of Dart programming language and Flutter widget architecture.',
     ),
   ];
 

@@ -4,7 +4,7 @@ import 'package:scroll_to_id/scroll_to_id.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/constants/app_text_styles.dart';
-import '../../../data/dummy/portfolio_data.dart';
+import '../../../data/dummy_models/portfolio_data.dart';
 import '../../../widgets/animated_text_widget.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/social_link_button.dart';
@@ -12,10 +12,7 @@ import '../../../widgets/social_link_button.dart';
 class HeroSection extends StatelessWidget {
   final ScrollToId scrollToId;
 
-  const HeroSection({
-    super.key,
-    required this.scrollToId,
-  });
+  const HeroSection({super.key, required this.scrollToId});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +22,10 @@ class HeroSection extends StatelessWidget {
 
     return Container(
       constraints: BoxConstraints(minHeight: size.height - 80),
-      padding: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 48, vertical: 64),
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 24 : 48,
+        vertical: 64,
+      ),
       alignment: Alignment.center,
       child: isDesktop
           ? Row(
@@ -36,10 +36,7 @@ class HeroSection extends StatelessWidget {
                   child: _buildLeftContent(context, isMobile: false),
                 ),
                 const SizedBox(width: 64),
-                Expanded(
-                  flex: 9,
-                  child: _buildRightContent(context),
-                ),
+                Expanded(flex: 9, child: _buildRightContent(context)),
               ],
             )
           : Column(
@@ -55,7 +52,9 @@ class HeroSection extends StatelessWidget {
 
   Widget _buildLeftContent(BuildContext context, {required bool isMobile}) {
     return Column(
-      crossAxisAlignment: isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+      crossAxisAlignment: isMobile
+          ? CrossAxisAlignment.center
+          : CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
@@ -67,22 +66,33 @@ class HeroSection extends StatelessWidget {
           ),
           child: Text(
             AppStrings.heroGreeting,
-            style: AppTextStyles.monospace(fontSize: 13, color: AppColors.primary, fontWeight: FontWeight.bold),
+            style: AppTextStyles.monospace(
+              fontSize: 13,
+              color: AppColors.primary,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ).animate().fade(duration: 500.ms).slideY(begin: 0.2, end: 0),
         const SizedBox(height: 20),
         ShaderMask(
-          shaderCallback: (bounds) => AppColors.primaryGradient.createShader(bounds),
-          child: Text(
-            PortfolioData.name,
-            style: AppTextStyles.heroName(context, isMobile: isMobile).copyWith(color: Colors.white),
-            textAlign: isMobile ? TextAlign.center : TextAlign.left,
-          ),
-        ).animate().fade(delay: 200.ms, duration: 600.ms).slideY(begin: 0.2, end: 0),
-        const SizedBox(height: 12),
-        AnimatedTextWidget(texts: PortfolioData.animatedRoles)
+              shaderCallback: (bounds) =>
+                  AppColors.primaryGradient.createShader(bounds),
+              child: Text(
+                PortfolioData.name,
+                style: AppTextStyles.heroName(
+                  context,
+                  isMobile: isMobile,
+                ).copyWith(color: Colors.white),
+                textAlign: isMobile ? TextAlign.center : TextAlign.left,
+              ),
+            )
             .animate()
-            .fade(delay: 400.ms, duration: 600.ms),
+            .fade(delay: 200.ms, duration: 600.ms)
+            .slideY(begin: 0.2, end: 0),
+        const SizedBox(height: 12),
+        AnimatedTextWidget(
+          texts: PortfolioData.animatedRoles,
+        ).animate().fade(delay: 400.ms, duration: 600.ms),
         const SizedBox(height: 24),
         Text(
           PortfolioData.summary,
@@ -99,11 +109,19 @@ class HeroSection extends StatelessWidget {
           children: [
             CustomButton(
               label: AppStrings.viewMyWork,
-              onTap: () => scrollToId.animateTo('projects', duration: const Duration(milliseconds: 500), curve: Curves.easeInOut),
+              onTap: () => scrollToId.animateTo(
+                'projects',
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+              ),
             ),
             CustomButton(
               label: AppStrings.contactMe,
-              onTap: () => scrollToId.animateTo('contact', duration: const Duration(milliseconds: 500), curve: Curves.easeInOut),
+              onTap: () => scrollToId.animateTo(
+                'contact',
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+              ),
               isOutlined: true,
             ),
           ],
@@ -123,79 +141,89 @@ class HeroSection extends StatelessWidget {
 
   Widget _buildRightContent(BuildContext context) {
     return Stack(
-      alignment: Alignment.center,
-      children: [
-        // Ambient background glow layer
-        Container(
-          width: 320,
-          height: 320,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: RadialGradient(
-              colors: [
-                AppColors.primary.withValues(alpha: 0.25),
-                AppColors.secondary.withValues(alpha: 0.15),
-                Colors.transparent,
-              ],
-            ),
-          ),
-        ),
-        // Main profile hero frame
-        Container(
-          width: 280,
-          height: 280,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: AppColors.premiumMixGradient,
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primary.withValues(alpha: 0.3),
-                blurRadius: 40,
-                spreadRadius: 4,
+          alignment: Alignment.center,
+          children: [
+            // Ambient background glow layer
+            Container(
+              width: 320,
+              height: 320,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [
+                    AppColors.primary.withValues(alpha: 0.25),
+                    AppColors.secondary.withValues(alpha: 0.15),
+                    Colors.transparent,
+                  ],
+                ),
               ),
-            ],
-          ),
-          padding: const EdgeInsets.all(3),
-          child: Container(
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColors.surface,
             ),
-            alignment: Alignment.center,
-            child: const Icon(
-              Icons.code,
-              size: 100,
-              color: AppColors.primary,
+            // Main profile hero frame
+            Container(
+              width: 280,
+              height: 280,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: AppColors.premiumMixGradient,
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.3),
+                    blurRadius: 40,
+                    spreadRadius: 4,
+                  ),
+                ],
+              ),
+              padding: const EdgeInsets.all(3),
+              child: ClipOval(
+                child: Image.asset(
+                  PortfolioData.profileImagePath,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
-          ),
-        ),
-        // Floating premium badge
-        Positioned(
-          bottom: 20,
-          right: 10,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            decoration: BoxDecoration(
-              color: AppColors.surface.withValues(alpha: 0.9),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: AppColors.border),
-              boxShadow: [
-                BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 10),
-              ],
+            // Floating premium badge
+            Positioned(
+              bottom: 20,
+              right: 10,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 10,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.surface.withValues(alpha: 0.9),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: AppColors.border),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.3),
+                      blurRadius: 10,
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.star, color: AppColors.primary, size: 16),
+                    const SizedBox(width: 6),
+                    Text(
+                      "Flutter Pro",
+                      style: AppTextStyles.monospace(
+                        fontSize: 12,
+                      ).copyWith(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.star, color: AppColors.primary, size: 16),
-                const SizedBox(width: 6),
-                Text("Flutter Pro", style: AppTextStyles.monospace(fontSize: 12).copyWith(fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ),
-        ),
-      ],
-    )
+          ],
+        )
         .animate(onPlay: (controller) => controller.repeat(reverse: true))
-        .scaleXY(begin: 0.96, end: 1.04, duration: 4.seconds, curve: Curves.easeInOutCubic);
+        .scaleXY(
+          begin: 0.96,
+          end: 1.04,
+          duration: 4.seconds,
+          curve: Curves.easeInOutCubic,
+        );
   }
 }

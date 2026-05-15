@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return Consumer<PortfolioProvider>(
       builder: (context, provider, _) {
         return MaterialApp(
-          title: 'Roman Dewan — Portfolio',
+          title: 'Md. Roman Dewan',
           debugShowCheckedModeBanner: false,
           themeMode: provider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
           darkTheme: ThemeData.dark().copyWith(

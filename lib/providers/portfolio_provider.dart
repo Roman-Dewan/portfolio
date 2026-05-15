@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../data/dummy/portfolio_data.dart';
+import '../data/dummy_models/portfolio_data.dart';
 import '../models/project_model.dart';
 import '../models/experience_model.dart';
 import '../models/skill_model.dart';

@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/constants/app_text_styles.dart';
-import '../../../data/dummy/portfolio_data.dart';
+import '../../../data/dummy_models/portfolio_data.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/section_title.dart';
 import '../../../widgets/skill_chip.dart';

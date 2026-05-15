@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../core/constants/app_colors.dart';
 import '../core/constants/app_text_styles.dart';
-import '../data/dummy/portfolio_data.dart';
+import '../data/dummy_models/portfolio_data.dart';
 
 class FooterWidget extends StatelessWidget {
   const FooterWidget({super.key});
